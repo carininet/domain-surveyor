@@ -1,0 +1,20 @@
+[project]
+name = "domain-surveyor"
+version = "0.1.0"
+description = "Bulk domain analysis tool for DNS, RDAP, SPF, DMARC and domain metadata"
+authors = [{ name = "DomainSurveyor" }]
+license = { text = "Apache License 2.0" }
+readme = "README.md"
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://domainsurveyor.com"
+Repository = "https://github.com/carininet/domain-surveyor"
+
+[project.scripts]
+domain-surveyor = "domain_surveyor.main:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
