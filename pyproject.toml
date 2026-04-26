@@ -5,8 +5,10 @@ description = "Bulk domain analysis tool for DNS, RDAP, SPF, DMARC and domain me
 authors = [{ name = "DomainSurveyor" }]
 license = { text = "Apache License 2.0" }
 readme = "README.md"
+requires-python = ">=3.6"
 dependencies = [
-  'dataclasses; python_version < "3.7"'
+  "dnspython==2.2.1",
+  'dataclasses; python_version < "3.7"',
 ]
 
 [project.urls]
@@ -17,6 +19,5 @@ Repository = "https://github.com/carininet/domain-surveyor"
 domain-surveyor = "domain_surveyor.main:main"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
-
