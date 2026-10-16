@@ -1,0 +1,74 @@
+# DomainSurveyor example runtime configuration
+# Copy to config/domain_surveyor.yaml and customize for your environment.
+
+logging:
+  level: INFO            # DEBUG | INFO | WARNING | ERROR
+  format: json           # json | text
+  destination: stdout    # stdout | stderr | file
+  file_path: /var/log/domain-surveyor.log
+  include_timestamp: true
+  redact_fields:
+    - api_key
+    - token
+  rotate:
+    enabled: true
+    max_bytes: 10485760  # 10 MiB
+    backup_count: 7
+
+dns_external_services:
+  resolver:
+    strategy: fallback   # system | static | fallback
+    timeout_seconds: 3.0
+    retries: 2
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+      - 9.9.9.9
+  doh:
+    enabled: true
+    endpoint: https://cloudflare-dns.com/dns-query
+    headers:
+      Accept: application/dns-json
+  providers:
+    securitytrails:
+      enabled: false
+      base_url: https://api.securitytrails.com/v1
+      api_key_env: SECURITYTRAILS_API_KEY
+      rate_limit_rps: 3
+    dnsdb:
+      enabled: false
+      base_url: https://api.dnsdb.info
+      api_key_env: DNSDB_API_KEY
+      rate_limit_rps: 2
+
+domain_external_services:
+  rdap:
+    enabled: true
+    bootstrap_url: https://data.iana.org/rdap/dns.json
+    timeout_seconds: 8
+    user_agent: domain-surveyor/0.1
+  whois:
+    enabled: true
+    timeout_seconds: 10
+    follow_referrals: true
+  reputation:
+    virustotal:
+      enabled: false
+      base_url: https://www.virustotal.com/api/v3
+      api_key_env: VT_API_KEY
+      rate_limit_rpm: 4
+    urlscan:
+      enabled: false
+      base_url: https://urlscan.io/api/v1
+      api_key_env: URLSCAN_API_KEY
+  dns_hosting_detection:
+    enabled: true
+    providers_catalog: data/providers/dns_hosts.yaml
+
+runtime:
+  concurrency: 20
+  request_timeout_seconds: 10
+  cache_ttl_seconds: 1800
+  output:
+    format: jsonl        # jsonl | csv
+    include_raw_records: false
